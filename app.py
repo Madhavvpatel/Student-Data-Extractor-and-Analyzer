@@ -119,7 +119,7 @@ def main():
         passed, failed, absent = process_data(data)
         
         # Display DataFrames
-        st.write("Extracted Data:", data)
+        # st.write("Extracted Data:", data)
         st.write("Passed Students", passed)
         st.write("Failed Students", failed)
         st.write("Absent Students", absent)
