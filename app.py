@@ -125,7 +125,7 @@ def main():
         st.write("Absent Students", absent)
 
         # Create downloadable Excel file
-            output = BytesIO()
+            # output = BytesIO()
             with pd.ExcelWriter(output, engine='xlsxwriter') as writer:
                 if not passed.empty:
                     passed.to_excel(writer, sheet_name="Passed Students", index=False)
