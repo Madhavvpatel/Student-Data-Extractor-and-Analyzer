@@ -119,16 +119,28 @@ def main():
         passed, failed, absent = process_data(data)
         
         # Display DataFrames
-        # st.write("Extracted Data:", data)
+        st.write("Extracted Data:", data)
         st.write("Passed Students", passed)
         st.write("Failed Students", failed)
         st.write("Absent Students", absent)
 
-        # Save data to Excel file
-        output_path = "student_marks.xlsx"
-        generate_excel(passed, failed, absent, output_path)
-        
-        st.write(f"Excel file created successfully: {output_path}")
+        # Create downloadable Excel file
+            output = BytesIO()
+            with pd.ExcelWriter(output, engine='xlsxwriter') as writer:
+                if not passed.empty:
+                    passed.to_excel(writer, sheet_name="Passed Students", index=False)
+                if not failed.empty:
+                    failed.to_excel(writer, sheet_name="Failed Students", index=False)
+                if not absent.empty:
+                    absent.to_excel(writer, sheet_name="Absent Students", index=False)
+            
+            output.seek(0)
+            st.download_button(
+                label="Download Excel file",
+                data=output,
+                file_name="student_marks.xlsx",
+                mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+            )
 
 if __name__ == "__main__":
     main()
