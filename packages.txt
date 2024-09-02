@@ -1,4 +1,3 @@
-# Python Packages
 pandas
 PyPDF2
 pytesseract
