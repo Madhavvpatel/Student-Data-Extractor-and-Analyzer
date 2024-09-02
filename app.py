@@ -79,14 +79,18 @@ def process_data(data):
     return passed, failed, absent
 
 # Function to generate Excel sheets
-def generate_excel(passed, failed, absent, output_path):
-    with pd.ExcelWriter(output_path) as writer:
+def generate_excel(passed, failed, absent):
+    output = io.BytesIO()
+    with pd.ExcelWriter(output, engine='xlsxwriter') as writer:
         if not passed.empty:
             passed.to_excel(writer, sheet_name="Passed Students", index=False)
         if not failed.empty:
             failed.to_excel(writer, sheet_name="Failed Students", index=False)
         if not absent.empty:
             absent.to_excel(writer, sheet_name="Absent Students", index=False)
+    writer.save()
+    output.seek(0)
+    return output
 
 # Streamlit app
 def main():
@@ -124,23 +128,16 @@ def main():
         st.write("Failed Students", failed)
         st.write("Absent Students", absent)
 
-        # Create downloadable Excel file
-            # output = BytesIO()
-            with pd.ExcelWriter(output, engine='xlsxwriter') as writer:
-                if not passed.empty:
-                    passed.to_excel(writer, sheet_name="Passed Students", index=False)
-                if not failed.empty:
-                    failed.to_excel(writer, sheet_name="Failed Students", index=False)
-                if not absent.empty:
-                    absent.to_excel(writer, sheet_name="Absent Students", index=False)
-            
-            output.seek(0)
-            st.download_button(
-                label="Download Excel file",
-                data=output,
-                file_name="student_marks.xlsx",
-                mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-            )
+        # Generate Excel file
+        excel_file = generate_excel(passed, failed, absent)
+        
+        # Add a download button
+        st.download_button(
+            label="Download Excel file",
+            data=excel_file,
+            file_name="student_marks.xlsx",
+            mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        )
 
 if __name__ == "__main__":
     main()
