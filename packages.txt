@@ -1,6 +1,0 @@
-pandas
-PyPDF2
-pytesseract
-Pillow
-pdf2image
-streamlit
