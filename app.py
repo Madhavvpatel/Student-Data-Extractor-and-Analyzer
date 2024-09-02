@@ -8,6 +8,17 @@ import math
 from PyPDF2 import PdfReader
 import io
 
+def generate_excel(passed, failed, absent):
+    output = io.BytesIO()
+    with pd.ExcelWriter(output, engine='xlsxwriter') as writer:
+        if not passed.empty:
+            passed.to_excel(writer, sheet_name="Passed Students", index=False)
+        if not failed.empty:
+            failed.to_excel(writer, sheet_name="Failed Students", index=False)
+        if not absent.empty:
+            absent.to_excel(writer, sheet_name="Absent Students", index=False)
+    output.seek(0)
+    return output
 # Function to extract text from PDF
 def extract_text_from_pdf(pdf_file):
     reader = PdfReader(pdf_file)
