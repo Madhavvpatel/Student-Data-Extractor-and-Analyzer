@@ -82,7 +82,7 @@ def process_data(data):
 def main():
     st.title("Student Data Processing App")
     
-    uploaded_file = st.file_uploader("Choose a PDF file", type="pdf", type="png", type="jpeg", type="jpg")
+    uploaded_file = st.file_uploader("Choose a PDF file", type="pdf, jpeg, png, jpg")
     
     if uploaded_file is not None:
         st.write("Processing file...")
