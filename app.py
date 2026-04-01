@@ -106,7 +106,7 @@ def main():
             
             passed, failed, absent = process_data(data)
             
-            # Print DataFrames for debugging
+            # Print Dataframes for debugging
             st.write("\nPassed Students:\n", passed)
             st.write("\nFailed Students:\n", failed)
             st.write("\nAbsent Students:\n", absent)
